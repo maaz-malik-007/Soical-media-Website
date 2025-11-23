@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SociaLite - Notifications</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+     <link rel="stylesheet" href="../CSS/styles.css">
+</head>
+<body class="min-h-screen">
+<!-- 
+        ================================================================
+        1. NAVBAR - Fixed, Responsive Header
+        ================================================================
+    -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <span class="text-2xl font-extrabold text-indigo-600 tracking-tight">SociaLite</span>
+                </div>
+
+                <!-- Desktop Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-4">
+                    <a href="../index.html" class="text-gray-900 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Home</a>
+                    <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Notifications</a>
+                    <a href="./Setting.html" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Settings</a>
+                </div>
+
+                <!-- Auth/Menu Toggle -->
+                <div class="flex items-center space-x-4">
+                    <button id="post-button" class="hidden sm:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                        <span class="mr-1">+</span> Create Post
+                    </button>
+                    
+                    <div class="relative inline-block text-left">
+                        <button id="auth-toggle" type="button" class="inline-flex justify-center items-center rounded-full border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition duration-150" aria-expanded="false" aria-haspopup="true">
+                            <span id="auth-text">Login / Signup</span>
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown menu (simulated) -->
+                        <div id="auth-menu" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="auth-toggle">
+                            <div class="py-1" role="none">
+                                <a href="./Login.html" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Login</a>
+                                <a href="./Signup.html" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Signup</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button type="button" class="sm:hidden text-gray-500 hover:text-gray-900" id="mobile-menu-button" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="../index.html" class="text-gray-900 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Home</a>
+                <a href="./Notification.html" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Notifications</a>
+                <a href="./Setting.html" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Settings</a>
+                <button id="mobile-post-button" class="w-full text-left text-white bg-indigo-600 hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium transition duration-150 mt-2">
+                    <span class="mr-1">+</span> Create Post
+                </button>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- 
+        ================================================================
+        2. MAIN NOTIFICATION CONTENT
+        ================================================================
+    -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h1 class="text-3xl font-bold text-gray-800">Notifications</h1>
+            <button id="mark-all-read" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition duration-150 flex items-center space-x-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>Mark all as read</span>
+            </button>
+        </div>
+
+        <!-- Notification List -->
+        <div id="notification-list" class="space-y-4">
+            <!-- Notifications injected here -->
+        </div>
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-16 bg-white rounded-xl shadow-lg border border-gray-100 mt-8">
+            <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <h3 class="mt-2 text-lg font-medium text-gray-900">No New Notifications</h3>
+            <p class="mt-1 text-sm text-gray-500">
+                You're all caught up! Check back later for updates.
+            </p>
+        </div>
+    </main>
+
+    <!-- 
+        ================================================================
+        3. JAVASCRIPT LOGIC
+        ================================================================
+    -->
+    <script>
+        // --- Configuration and Initialization ---
+        const NOTIFICATION_LIST_ID = 'notification-list';
+        const MOBILE_MENU_ID = 'mobile-menu';
+        const MARK_ALL_READ_ID = 'mark-all-read';
+        
+        // Mock data for professional notifications
+        const MOCK_NOTIFICATIONS = [
+            {
+                id: 1,
+                user: 'Alex_R',
+                type: 'like', // like, comment, follow, share
+                message: 'liked your post "Design Prototype Review".',
+                time: '5m ago',
+                read: false,
+                color: 'bg-red-50 text-red-700',
+                icon: '❤️'
+            },
+            {
+                id: 2,
+                user: 'Maria_S',
+                type: 'comment',
+                message: 'commented on your post: "This analysis is very insightful!"',
+                time: '12m ago',
+                read: false,
+                color: 'bg-blue-50 text-blue-700',
+                icon: '💬'
+            },
+            {
+                id: 3,
+                user: 'Dev_Ops',
+                type: 'follow',
+                message: 'started following you.',
+                time: '30m ago',
+                read: false,
+                color: 'bg-indigo-50 text-indigo-700',
+                icon: '👤'
+            },
+            {
+                id: 4,
+                user: 'Marketing_Pro',
+                type: 'share',
+                message: 'shared your post on their timeline.',
+                time: '1h ago',
+                read: true,
+                color: 'bg-gray-100 text-gray-700',
+                icon: '🔗'
+            },
+            {
+                id: 5,
+                user: 'Jane_D',
+                type: 'like',
+                message: 'liked your post "Code Refactoring Challenge".',
+                time: '3h ago',
+                read: true,
+                color: 'bg-gray-100 text-gray-700',
+                icon: '❤️'
+            }
+        ];
+        
+        let notifications = MOCK_NOTIFICATIONS; // In a real app, this would be fetched and managed in state
+
+        // --- HTML Rendering Functions ---
+
+        /**
+         * Generates the HTML string for a single notification item.
+         * @param {object} notif - The notification object.
+         * @returns {string} HTML string.
+         */
+        function renderNotification(notif) {
+            const opacityClass = notif.read ? 'opacity-70' : 'font-semibold';
+            const backgroundClass = notif.read ? 'bg-white' : notif.color;
+            const textClass = notif.read ? 'text-gray-500' : 'text-gray-900';
+            const iconTextColor = notif.read ? 'text-gray-500' : notif.color.split(' ')[1]; // Extracting color class
+
+            return `
+                <div class="notification-item flex items-start p-4 rounded-xl shadow-sm border border-gray-200 transition duration-300 ${backgroundClass} ${opacityClass}" data-id="${notif.id}">
+                    
+                    <!-- Icon Indicator -->
+                    <div class="flex-shrink-0 mr-4 mt-1">
+                        <span class="text-2xl ${iconTextColor}">${notif.icon}</span>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm ${textClass}">
+                            <span class="font-bold">${notif.user}</span> ${notif.message}
+                        </p>
+                        <p class="text-xs text-gray-600 mt-1">${notif.time}</p>
+                    </div>
+
+                    <!-- Action/Status -->
+                    <div class="flex-shrink-0 ml-4">
+                        ${!notif.read ? 
+                            `<button class="mark-read-button text-xs font-medium text-indigo-600 hover:text-indigo-800" data-id="${notif.id}">
+                                Mark Read
+                            </button>` 
+                            : `<span class="text-green-500 text-xs font-medium">Read</span>`}
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Renders all notifications to the list element.
+         */
+        function renderNotifications() {
+            const listElement = document.getElementById(NOTIFICATION_LIST_ID);
+            const emptyState = document.getElementById('empty-state');
+            
+            if (notifications.length === 0) {
+                listElement.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                document.getElementById(MARK_ALL_READ_ID).classList.add('hidden');
+            } else {
+                listElement.innerHTML = notifications.map(renderNotification).join('');
+                emptyState.classList.add('hidden');
+                document.getElementById(MARK_ALL_READ_ID).classList.remove('hidden');
+                attachEventListeners();
+            }
+        }
+
+        // --- Event Handlers and Logic ---
+
+        /**
+         * Marks a single notification as read.
+         * @param {number} notifId - The ID of the notification to mark.
+         */
+        function markNotificationAsRead(notifId) {
+            const index = notifications.findIndex(n => n.id === notifId);
+            if (index !== -1) {
+                notifications[index].read = true;
+                // Update styling to reflect the 'read' state classes defined in MOCK_NOTIFICATIONS
+                notifications[index].color = 'bg-gray-100 text-gray-700';
+                renderNotifications();
+            }
+        }
+
+        /**
+         * Marks all unread notifications as read.
+         */
+        function markAllAsRead() {
+            let changesMade = false;
+            notifications = notifications.map(n => {
+                if (!n.read) {
+                    changesMade = true;
+                    // Apply read styling
+                    return { ...n, read: true, color: 'bg-gray-100 text-gray-700' };
+                }
+                return n;
+            });
+            if (changesMade) {
+                renderNotifications();
+            }
+        }
+
+        /**
+         * Toggles the mobile navigation menu.
+         */
+        function toggleMobileMenu() {
+            document.getElementById(MOBILE_MENU_ID).classList.toggle('hidden');
+        }
+
+        /**
+         * Attaches all dynamic event listeners.
+         */
+        function attachEventListeners() {
+            // Mark individual notification as read
+            document.querySelectorAll('.mark-read-button').forEach(button => {
+                button.onclick = (e) => {
+                    const id = parseInt(e.currentTarget.dataset.id);
+                    markNotificationAsRead(id);
+                };
+            });
+
+            // Mark all notifications as read
+            document.getElementById(MARK_ALL_READ_ID).onclick = markAllAsRead;
+            
+            // Mobile Menu Toggle
+            document.getElementById('mobile-menu-button').onclick = toggleMobileMenu;
+        }
+
+        // --- Application Startup ---
+        window.onload = function() {
+            renderNotifications();
+        };
+    </script>
+</body>
+</html>

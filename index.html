@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SociaLite - Modern Social Feed</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <link rel="stylesheet" href="./CSS/styles.css">
+</head>
+<body class="min-h-screen">
+
+    <!-- 
+        ================================================================
+        1. NAVBAR - Fixed, Responsive Header
+        ================================================================
+    -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <span class="text-2xl font-extrabold text-indigo-600 tracking-tight">SociaLite</span>
+                </div>
+
+                <!-- Desktop Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-4">
+                    <a href="#" class="text-gray-900 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Home</a>
+                    <a href="./Pages/Notification.html" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Notifications</a>
+                    <a href="./Pages/Setting.html" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Settings</a>
+                </div>
+
+                <!-- Auth/Menu Toggle -->
+                <div class="flex items-center space-x-4">
+                    <button id="post-button" class="hidden sm:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                        <span class="mr-1">+</span> Create Post
+                    </button>
+                    
+                    <div class="relative inline-block text-left">
+                        <button id="auth-toggle" type="button" class="inline-flex justify-center items-center rounded-full border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition duration-150" aria-expanded="false" aria-haspopup="true">
+                            <span id="auth-text">Login / Signup</span>
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown menu (simulated) -->
+                        <div id="auth-menu" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="auth-toggle">
+                            <div class="py-1" role="none">
+                                <a href="./Pages/Login.html" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Login</a>
+                                <a href="./Pages/Signup.html" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Signup</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button type="button" class="sm:hidden text-gray-500 hover:text-gray-900" id="mobile-menu-button" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="./index.html" class="text-gray-900 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Home</a>
+                <a href="./Pages/Notification.html" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Notifications</a>
+                <a href="./Pages/Setting.html" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Settings</a>
+                <button id="mobile-post-button" class="w-full text-left text-white bg-indigo-600 hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium transition duration-150 mt-2">
+                    <span class="mr-1">+</span> Create Post
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 
+        ================================================================
+        2. MAIN CONTENT AREA - Responsive Layout
+        ================================================================
+    -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Sidebar (Hidden on mobile for focus) -->
+            <div class="hidden lg:block lg:col-span-1">
+                <div class="sticky top-20">
+                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Your Profile</h3>
+                        <div class="flex items-center space-x-4 mb-4">
+                            <img class="h-12 w-12 rounded-full object-cover" src="https://placehold.co/150x150/6366f1/ffffff?text=U" onerror="this.src='https://placehold.co/150x150/6366f1/ffffff?text=U'" alt="User Avatar">
+                            <div>
+                                <p class="text-base font-medium text-gray-900">Guest User</p>
+                                <p class="text-sm text-gray-500">@socia_user</p>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            Welcome to SociaLite! Start by creating your first post and sharing your thoughts with the world.
+                        </div>
+                        <button id="post-button-sidebar" class="mt-4 w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition duration-150">
+                            What's on your mind?
+                        </button>
+                    </div>
+                    
+                    <!-- Trending Section -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100 mt-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Trending Topics</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li class="text-indigo-600 hover:text-indigo-800 transition"><a href="#">#WebDesign2025</a></li>
+                            <li class="text-indigo-600 hover:text-indigo-800 transition"><a href="#">#SingleFileApps</a></li>
+                            <li class="text-indigo-600 hover:text-indigo-800 transition"><a href="#">#LearningJS</a></li>
+                            <li class="text-indigo-600 hover:text-indigo-800 transition"><a href="#">#TailwindCSS</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Post Feed -->
+            <div class="lg:col-span-2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Explore Feed</h2>
+                <div id="post-feed" class="space-y-6">
+                    <!-- Posts will be injected here by JavaScript -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 
+        ================================================================
+        3. CREATE POST MODAL
+        ================================================================
+    -->
+    <div id="create-post-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="modal-backdrop fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+            <!-- Modal Panel -->
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-xl font-bold leading-6 text-gray-900" id="modal-title">Create New Post</h3>
+                    
+                    <form id="create-post-form" class="mt-4 space-y-4">
+                        <!-- Image URL Field -->
+                        <div>
+                            <label for="post-image" class="block text-sm font-medium text-gray-700">Image URL (Optional)</label>
+                            <input type="url" id="post-image" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 border" placeholder="Paste an image URL (e.g., a placeholder)">
+                        </div>
+
+                        <!-- Description Field -->
+                        <div>
+                            <label for="post-description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea id="post-description" rows="3" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 border" placeholder="What's happening?"></textarea>
+                        </div>
+                        
+                        <!-- Hashtags Field -->
+                        <div>
+                            <label for="post-hashtags" class="block text-sm font-medium text-gray-700">Hashtags (e.g., #design #code)</label>
+                            <input type="text" id="post-hashtags" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 border" placeholder="#cool #project">
+                        </div>
+                    </form>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="submit" form="create-post-form" class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm transition duration-150">
+                        Share Post
+                    </button>
+                    <button type="button" id="close-post-modal" class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition duration-150">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
+        ================================================================
+        4. JAVASCRIPT LOGIC
+        ================================================================
+    -->
+    <script>
+        // --- Configuration and Initialization ---
+        const LOCAL_STORAGE_KEY = 'socialitePosts';
+        const FEED_ELEMENT = document.getElementById('post-feed');
+        const CREATE_POST_MODAL = document.getElementById('create-post-modal');
+        const CREATE_POST_FORM = document.getElementById('create-post-form');
+
+        // Initial, mock post data (Simulating data from a JSON file)
+        const MOCK_POSTS = [
+            {
+                id: 1,
+                user: { name: "Canvas Dev", avatar: "https://placehold.co/150x150/22c55e/ffffff?text=CD" },
+                time: '2 hours ago',
+                description: 'Just finished a responsive web design prototype using Tailwind! It was challenging but the results are super clean. Always prioritize mobile-first! #WebDesign #TailwindCSS #CodeLife',
+                imageUrl: 'https://placehold.co/600x400/3b82f6/ffffff?text=Responsive+Design+Image',
+                likes: 42,
+                comments: 5,
+                isLiked: false,
+                commentsData: [
+                    { id: 101, user: 'John Doe', text: 'Looks fantastic! Great work.', replies: [] },
+                    { id: 102, user: 'Jane Smith', text: 'I agree, the modern UI is sleek.', replies: [{ id: 103, user: 'John Doe', text: 'Thanks!' }] }
+                ]
+            },
+            {
+                id: 2,
+                user: { name: "Project Lead", avatar: "https://placehold.co/150x150/f97316/ffffff?text=PL" },
+                time: 'Yesterday',
+                description: 'Starting a new project focused on real-time data visualization. Planning to use D3.js. Wish me luck! What are your favorite data libraries? #DataViz #D3js #NewProject',
+                imageUrl: 'https://placehold.co/600x400/ef4444/ffffff?text=Data+Visualization+Concept',
+                likes: 21,
+                comments: 3,
+                isLiked: true,
+                commentsData: []
+            }
+        ];
+
+        let posts = [];
+
+        // --- Utility Functions for Data Persistence ---
+
+        // Load posts from localStorage or initialize with mock data
+        function loadPosts() {
+            const storedPosts = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (storedPosts) {
+                try {
+                    posts = JSON.parse(storedPosts);
+                } catch (e) {
+                    console.error("Error parsing posts from localStorage:", e);
+                    posts = MOCK_POSTS;
+                }
+            } else {
+                posts = MOCK_POSTS;
+            }
+            // Ensure posts are sorted by ID descending (most recent first)
+            posts.sort((a, b) => b.id - a.id);
+        }
+
+        // Save current posts array to localStorage
+        function savePosts() {
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(posts));
+        }
+
+        // --- HTML Rendering Functions ---
+
+        /**
+         * Generates the HTML string for a single comment and its replies.
+         * @param {object} comment - The comment object.
+         * @returns {string} HTML string.
+         */
+        function renderComment(comment) {
+            let html = `
+                <div class="flex items-start space-x-3 text-sm mb-2">
+                    <img class="h-8 w-8 rounded-full object-cover" src="https://placehold.co/150x150/d1d5db/4b5563?text=C" alt="Commenter Avatar">
+                    <div class="flex-1 bg-gray-100 p-3 rounded-xl">
+                        <p class="font-semibold text-gray-900">${comment.user}</p>
+                        <p class="text-gray-700">${comment.text}</p>
+                    </div>
+                    <!-- Reply button is visual only for complexity reduction -->
+                    <button class="text-xs text-indigo-500 hover:text-indigo-700 font-medium">Reply</button>
+                </div>
+            `;
+            
+            if (comment.replies && comment.replies.length > 0) {
+                comment.replies.forEach(reply => {
+                    html += `
+                        <div class="ml-10 flex items-start space-x-3 text-sm mb-2">
+                            <img class="h-6 w-6 rounded-full object-cover" src="https://placehold.co/150x150/9ca3af/ffffff?text=R" alt="Reply Avatar">
+                            <div class="flex-1 bg-gray-200 p-2 rounded-xl">
+                                <p class="font-semibold text-gray-900">${reply.user}</p>
+                                <p class="text-gray-700">${reply.text}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            return html;
+        }
+
+        /**
+         * Generates the HTML string for a single post.
+         * @param {object} post - The post object.
+         * @returns {string} HTML string.
+         */
+        function renderPost(post) {
+            const likedClass = post.isLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500';
+            const likeIcon = post.isLiked ? '❤️' : '🤍';
+
+            const hashtaggedDescription = post.description.replace(/#(\w+)/g, '<span class="text-indigo-600 font-semibold cursor-pointer">#$1</span>');
+            
+            const commentsHtml = post.commentsData.map(renderComment).join('');
+
+            return `
+                <div class="post-item bg-white rounded-xl shadow-lg border border-gray-100 p-6" data-id="${post.id}">
+                    <!-- Post Header -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <img class="h-10 w-10 rounded-full object-cover" src="${post.user.avatar}" onerror="this.src='https://placehold.co/150x150/6366f1/ffffff?text=U'" alt="${post.user.name} Avatar">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900">${post.user.name}</p>
+                                <p class="text-xs text-gray-500">${post.time}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post Content -->
+                    ${post.imageUrl ? 
+                        `<div class="mb-4">
+                            <img class="w-full h-auto max-h-96 object-cover rounded-lg border border-gray-200" src="${post.imageUrl}" onerror="this.src='https://placehold.co/600x400/94a3b8/ffffff?text=Image+Unavailable'; this.alt='Placeholder Image';" alt="Post Image">
+                        </div>` 
+                        : ''}
+                    
+                    <p class="text-gray-800 mb-4 leading-relaxed">${hashtaggedDescription}</p>
+
+                    <!-- Post Actions & Stats -->
+                    <div class="flex justify-between items-center border-t border-b border-gray-100 py-3 mb-4">
+                        <div class="flex space-x-4">
+                            <!-- Like Button -->
+                            <button class="flex items-center space-x-1 font-medium like-button transition duration-150" data-post-id="${post.id}">
+                                <span class="text-xl ${likedClass}" role="img" aria-label="like">${likeIcon}</span>
+                                <span class="text-sm text-gray-600">${post.likes}</span>
+                                <span class="text-sm text-gray-600 hidden sm:inline">Likes</span>
+                            </button>
+
+                            <!-- Comment/Share (Visual only) -->
+                            <button class="flex items-center space-x-1 text-gray-500 hover:text-indigo-600 transition duration-150">
+                                <span class="text-xl">💬</span>
+                                <span class="text-sm text-gray-600">${post.comments}</span>
+                                <span class="text-sm text-gray-600 hidden sm:inline">Comments</span>
+                            </button>
+                            <button class="flex items-center space-x-1 text-gray-500 hover:text-indigo-600 transition duration-150">
+                                <span class="text-xl">🔗</span>
+                                <span class="text-sm text-gray-600 hidden sm:inline">Share</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="space-y-3">
+                        <h4 class="text-sm font-bold text-gray-800 border-b pb-2">Comments (${post.comments})</h4>
+                        <div class="comment-list">
+                            ${commentsHtml}
+                        </div>
+                        
+                        <!-- New Comment Form -->
+                        <div class="flex space-x-2">
+                            <input type="text" placeholder="Write a comment..." class="flex-1 rounded-full border border-gray-300 px-4 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <button class="bg-indigo-600 text-white rounded-full px-4 py-2 text-sm hover:bg-indigo-700 transition duration-150">Post</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Renders all posts to the feed element.
+         */
+        function renderFeed() {
+            FEED_ELEMENT.innerHTML = posts.map(renderPost).join('');
+            // Re-attach event listeners after re-rendering
+            attachEventListeners();
+        }
+
+        // --- Event Handlers ---
+
+        /**
+         * Handles the post creation form submission.
+         * @param {Event} e - The form submission event.
+         */
+        function handlePostCreation(e) {
+            e.preventDefault();
+            
+            const description = document.getElementById('post-description').value.trim();
+            if (!description) {
+                alert('Post description cannot be empty.'); // Simplified error for demo
+                return;
+            }
+
+            const imageUrl = document.getElementById('post-image').value.trim();
+            const hashtags = document.getElementById('post-hashtags').value.trim();
+            
+            const newPost = {
+                id: Date.now(), // Use timestamp as unique ID
+                user: { name: "New User", avatar: "https://placehold.co/150x150/10b981/ffffff?text=NU" },
+                time: 'Just now',
+                description: description + (hashtags ? ' ' + hashtags : ''),
+                imageUrl: imageUrl || '',
+                likes: 0,
+                comments: 0,
+                isLiked: false,
+                commentsData: []
+            };
+
+            // Add new post to the beginning of the array
+            posts.unshift(newPost);
+            
+            // Save and re-render
+            savePosts();
+            renderFeed();
+            
+            // Close modal and reset form
+            CREATE_POST_MODAL.classList.add('hidden');
+            CREATE_POST_FORM.reset();
+        }
+
+        /**
+         * Toggles the like status of a post.
+         * @param {Event} e - The click event.
+         */
+        function handleLikeToggle(e) {
+            const button = e.currentTarget;
+            const postId = parseInt(button.dataset.postId);
+            
+            const postIndex = posts.findIndex(p => p.id === postId);
+            if (postIndex === -1) return;
+
+            const post = posts[postIndex];
+
+            if (post.isLiked) {
+                post.likes--;
+            } else {
+                post.likes++;
+            }
+            post.isLiked = !post.isLiked;
+
+            // Update data and refresh display for the specific post
+            savePosts();
+            
+            // Re-render the entire feed for simplicity and consistency
+            renderFeed();
+        }
+        
+        // --- UI Control Functions ---
+
+        /**
+         * Toggles the visibility of the Create Post Modal.
+         * @param {boolean} show - Explicitly set visibility.
+         */
+        function togglePostModal(show = null) {
+            if (show === null) {
+                CREATE_POST_MODAL.classList.toggle('hidden');
+            } else if (show) {
+                CREATE_POST_MODAL.classList.remove('hidden');
+            } else {
+                CREATE_POST_MODAL.classList.add('hidden');
+            }
+        }
+        
+        /**
+         * Toggles the visibility of the Auth Dropdown Menu.
+         */
+        function toggleAuthMenu() {
+            document.getElementById('auth-menu').classList.toggle('hidden');
+        }
+        
+        /**
+         * Toggles the mobile menu.
+         */
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        /**
+         * Attaches all dynamic event listeners.
+         */
+        function attachEventListeners() {
+            // Like buttons
+            document.querySelectorAll('.like-button').forEach(button => {
+                button.onclick = handleLikeToggle;
+            });
+            
+            // Mobile Menu
+            document.getElementById('mobile-menu-button').onclick = toggleMobileMenu;
+
+            // Auth Menu
+            document.getElementById('auth-toggle').onclick = toggleAuthMenu;
+
+            // Post Modal Triggers
+            const postTriggers = [
+                document.getElementById('post-button'),
+                document.getElementById('mobile-post-button'),
+                document.getElementById('post-button-sidebar')
+            ];
+            postTriggers.forEach(btn => btn.onclick = () => togglePostModal(true));
+
+            // Post Modal Close
+            document.getElementById('close-post-modal').onclick = () => togglePostModal(false);
+
+            // Form Submission
+            CREATE_POST_FORM.onsubmit = handlePostCreation;
+        }
+
+        // --- Application Startup ---
+        window.onload = function() {
+            loadPosts();
+            renderFeed();
+        };
+
+        // Close auth menu when clicking outside (simple implementation)
+        window.onclick = function(event) {
+            if (!event.target.matches('#auth-toggle') && !event.target.closest('#auth-toggle')) {
+                const dropdown = document.getElementById("auth-menu");
+                if (!dropdown.classList.contains('hidden')) {
+                    dropdown.classList.add('hidden');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SociaLite - Settings</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <link rel="stylesheet" href="../CSS/styles.css">
+</head>
+<body class="min-h-screen">
+
+    <!-- 
+        ================================================================
+        1. NAVBAR - Fixed, Responsive Header
+        ================================================================
+    -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <span class="text-2xl font-extrabold text-indigo-600 tracking-tight">SociaLite</span>
+                </div>
+
+                <!-- Desktop Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-4">
+                    <a href="../index.html" class="text-gray-900 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Home</a>
+                    <a href="./Notification.html" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Notifications</a>
+                    <a href="./Setting.html" class="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Settings</a>
+                </div>
+
+                <!-- Auth/Menu Toggle -->
+                <div class="flex items-center space-x-4">
+                    <button id="post-button" class="hidden sm:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                        <span class="mr-1">+</span> Create Post
+                    </button>
+                    
+                    <div class="relative inline-block text-left">
+                        <button type="button" class="inline-flex justify-center items-center rounded-full border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition duration-150" aria-expanded="false" aria-haspopup="true">
+                            <span >Login / Signup</span>
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown menu (simulated) -->
+                        <div id="auth-menu" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="auth-toggle">
+                            <div class="py-1" role="none">
+                                <a href="./Login.html" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Login</a>
+                                <a href="./Signup.html" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Signup</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button type="button" class="sm:hidden text-gray-500 hover:text-gray-900" id="mobile-menu-button" aria-expanded="false">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="../index.html" class="text-gray-900 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Home</a>
+                <a href="./Notification.html" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Notifications</a>
+                <a href="./Setting.html" class="text-gray-500 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100">Settings</a>
+                <button id="mobile-post-button" class="w-full text-left text-white bg-indigo-600 hover:bg-indigo-700 block px-3 py-2 rounded-md text-base font-medium transition duration-150 mt-2">
+                    <span class="mr-1">+</span> Create Post
+                </button>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- 
+        ================================================================
+        2. MAIN SETTINGS DASHBOARD
+        ================================================================
+    -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Account Settings</h1>
+
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-4">
+                
+                <!-- Settings Navigation (Sidebar on Desktop, Full-width on Mobile) -->
+                <div class="col-span-1 border-r border-gray-100 bg-gray-50 p-4">
+                    <nav class="flex flex-col space-y-1">
+                        <button class="tab-button active p-3 rounded-lg text-left text-sm transition duration-150" data-tab="profile">
+                            Profile Information
+                        </button>
+                        <button class="tab-button p-3 rounded-lg text-left text-sm transition duration-150" data-tab="security">
+                            Security & Login
+                        </button>
+                        <button class="tab-button p-3 rounded-lg text-left text-sm transition duration-150" data-tab="appearance">
+                            Appearance
+                        </button>
+                        <button class="tab-button p-3 rounded-lg text-left text-sm transition duration-150" data-tab="data">
+                            Data & Privacy
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Settings Content Area -->
+                <div class="col-span-1 md:col-span-3 p-6 sm:p-8">
+                    
+                    <!-- Notification Message Placeholder (Success/Error) -->
+                    <div id="status-message" class="hidden p-4 mb-6 text-sm rounded-lg" role="alert"></div>
+
+                    <!-- 
+                        --- PROFILE INFORMATION TAB ---
+                    -->
+                    <div id="tab-profile" class="settings-tab">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Edit Profile</h2>
+                        <p class="text-gray-500 mb-6">Update your personal details and avatar.</p>
+
+                        <form id="profile-form" class="space-y-6">
+                            <!-- Avatar Upload -->
+                            <div class="flex items-center space-x-4">
+                                <img id="profile-avatar" class="h-16 w-16 rounded-full object-cover border-2 border-indigo-200" src="https://placehold.co/150x150/6366f1/ffffff?text=U" alt="User Avatar">
+                                <div>
+                                    <label for="avatar-url" class="block text-sm font-medium text-gray-700">Avatar URL</label>
+                                    <input type="url" id="avatar-url" value="https://placehold.co/150x150/6366f1/ffffff?text=U" class="mt-1 block w-full max-w-sm rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border text-sm" placeholder="e.g., https://your-image.jpg">
+                                </div>
+                            </div>
+                            
+                            <!-- Name -->
+                            <div>
+                                <label for="full-name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="full-name" value="Guest User" required class="mt-1 block w-full max-w-md rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                            </div>
+
+                            <!-- Username -->
+                            <div>
+                                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                                <div class="mt-1 flex rounded-lg shadow-sm max-w-md">
+                                    <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                                        @
+                                    </span>
+                                    <input type="text" id="username" value="socia_user" required class="flex-1 block w-full rounded-none rounded-r-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                                </div>
+                            </div>
+
+                            <!-- Bio -->
+                            <div>
+                                <label for="bio" class="block text-sm font-medium text-gray-700">Bio / About Me</label>
+                                <textarea id="bio" rows="3" class="mt-1 block w-full max-w-lg rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">Welcome to SociaLite! Start by creating your first post and sharing your thoughts with the world.</textarea>
+                            </div>
+
+                            <div class="pt-4">
+                                <button type="submit" class="inline-flex justify-center rounded-lg border border-transparent shadow-sm px-6 py-2 bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-700 transition duration-150">
+                                    Save Profile Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 
+                        --- SECURITY & LOGIN TAB ---
+                    -->
+                    <div id="tab-security" class="settings-tab hidden">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Security & Login</h2>
+                        <p class="text-gray-500 mb-6">Manage your account credentials and security features.</p>
+
+                        <!-- Password Change Form -->
+                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Change Password</h3>
+                            <form id="password-form" class="space-y-4 max-w-md">
+                                <div>
+                                    <label for="current-password" class="block text-sm font-medium text-gray-700">Current Password</label>
+                                    <input type="password" id="current-password" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                                </div>
+                                <div>
+                                    <label for="new-password" class="block text-sm font-medium text-gray-700">New Password</label>
+                                    <input type="password" id="new-password" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                                </div>
+                                <div>
+                                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                                    <input type="password" id="confirm-password" required class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                                </div>
+                                <div class="pt-2">
+                                    <button type="submit" class="inline-flex justify-center rounded-lg border border-transparent shadow-sm px-6 py-2 bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-700 transition duration-150">
+                                        Update Password
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Two-Factor Authentication Toggle (Mock) -->
+                        <div class="mt-8 pt-4 border-t border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">Two-Factor Authentication (2FA)</h3>
+                            <div class="flex items-center justify-between max-w-md">
+                                <p class="text-sm text-gray-600">Secure your account with an extra layer of protection.</p>
+                                <button id="2fa-toggle" class="bg-gray-200 text-gray-700 rounded-full px-3 py-1 text-sm font-medium hover:bg-gray-300 transition duration-150">
+                                    Enable
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 
+                        --- APPEARANCE TAB ---
+                    -->
+                    <div id="tab-appearance" class="settings-tab hidden">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Appearance</h2>
+                        <p class="text-gray-500 mb-6">Customize the look and feel of the SociaLite interface.</p>
+                        
+                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Theme Selection (Mock)</h3>
+                            <div class="flex space-x-4">
+                                <!-- Light Theme -->
+                                <button id="theme-light" class="border-2 border-indigo-600 p-4 rounded-xl shadow-md transition duration-150">
+                                    <div class="w-20 h-10 bg-white border border-gray-300 rounded-md"></div>
+                                    <p class="mt-2 text-sm font-medium text-indigo-700">Light</p>
+                                </button>
+                                
+                                <!-- Dark Theme -->
+                                <button id="theme-dark" class="border-2 border-gray-200 p-4 rounded-xl shadow-md hover:border-indigo-400 transition duration-150">
+                                    <div class="w-20 h-10 bg-gray-800 border border-gray-700 rounded-md"></div>
+                                    <p class="mt-2 text-sm text-gray-700">Dark</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 
+                        --- DATA & PRIVACY TAB ---
+                    -->
+                    <div id="tab-data" class="settings-tab hidden">
+                        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Data & Privacy</h2>
+                        <p class="text-gray-500 mb-6">Manage your data, cookies, and account termination.</p>
+
+                        <!-- Data Export -->
+                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">Export Your Data</h3>
+                            <p class="text-sm text-gray-600 mb-4">Download a copy of all your posts, comments, and profile information.</p>
+                            <button id="export-data" class="inline-flex items-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100 transition duration-150">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Request Data Export
+                            </button>
+                        </div>
+
+                        <!-- Account Deletion -->
+                        <div class="bg-red-50 p-6 rounded-xl border border-red-200">
+                            <h3 class="text-lg font-medium text-red-700 mb-2">Delete Account</h3>
+                            <p class="text-sm text-red-600 mb-4">Warning: This action is permanent and cannot be undone.</p>
+                            <button id="delete-account" class="inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition duration-150">
+                                Permanently Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- 
+        ================================================================
+        3. JAVASCRIPT LOGIC
+        ================================================================
+    -->
+    <script>
+        // --- Configuration and Initialization ---
+        const TAB_CONTAINER_ID = 'settings-tab-container';
+        const STATUS_MESSAGE_ID = 'status-message';
+        const MOBILE_MENU_ID = 'mobile-menu';
+
+        // --- Utility Functions ---
+
+        /**
+         * Displays a temporary success or error message.
+         * @param {string} message - The message content.
+         * @param {string} type - 'success' or 'error'.
+         */
+        function showStatusMessage(message, type) {
+            const statusElement = document.getElementById(STATUS_MESSAGE_ID);
+            
+            // Clear previous classes
+            statusElement.className = '';
+            statusElement.classList.add('p-4', 'mb-6', 'text-sm', 'rounded-lg');
+
+            if (type === 'success') {
+                statusElement.classList.add('bg-green-100', 'text-green-700', 'border', 'border-green-300');
+            } else if (type === 'error') {
+                statusElement.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300');
+            }
+            
+            statusElement.innerHTML = message;
+            statusElement.classList.remove('hidden');
+
+            setTimeout(() => {
+                statusElement.classList.add('hidden');
+            }, 3000);
+        }
+
+        /**
+         * Switches the active settings tab content.
+         * @param {string} tabName - The name of the tab (e.g., 'profile').
+         */
+        function switchTab(tabName) {
+            // 1. Hide all content tabs
+            document.querySelectorAll('.settings-tab').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+
+            // 2. Deactivate all navigation buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // 3. Show the requested content tab
+            const activeContent = document.getElementById(`tab-${tabName}`);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
+
+            // 4. Activate the corresponding navigation button
+            const activeButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+        
+        /**
+         * Toggles the mobile navigation menu.
+         */
+        function toggleMobileMenu() {
+            document.getElementById(MOBILE_MENU_ID).classList.toggle('hidden');
+        }
+
+        // --- Event Handlers ---
+
+        /**
+         * Handles the Profile form submission (Mock save).
+         */
+        function handleProfileSave(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('full-name').value;
+            const username = document.getElementById('username').value;
+            const avatarUrl = document.getElementById('avatar-url').value;
+            
+            // Update the displayed avatar
+            document.getElementById('profile-avatar').src = avatarUrl;
+
+            // Mock success feedback
+            showStatusMessage(`Profile updated successfully for ${fullName} (@${username})!`, 'success');
+        }
+
+        /**
+         * Handles the Password form submission (Mock save).
+         */
+        function handlePasswordSave(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('new-password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
+
+            if (newPass !== confirmPass) {
+                showStatusMessage('Error: New passwords do not match.', 'error');
+                return;
+            }
+            
+            // Mock success feedback
+            showStatusMessage('Password updated successfully! Please log in with your new password next time.', 'success');
+            document.getElementById('password-form').reset();
+        }
+
+        /**
+         * Handles the Two-Factor Auth toggle (Mock).
+         */
+        function handle2FAToggle(e) {
+            const button = e.currentTarget;
+            if (button.textContent.trim() === 'Enable') {
+                button.textContent = 'Disable';
+                button.classList.remove('bg-gray-200');
+                button.classList.add('bg-green-500', 'text-white');
+                showStatusMessage('Two-Factor Authentication is now enabled!', 'success');
+            } else {
+                button.textContent = 'Enable';
+                button.classList.remove('bg-green-500', 'text-white');
+                button.classList.add('bg-gray-200', 'text-gray-700');
+                showStatusMessage('Two-Factor Authentication is now disabled.', 'error');
+            }
+        }
+
+        /**
+         * Handles Account Deletion (Mock confirmation).
+         */
+        function handleDeleteAccount() {
+            // Use a custom message box instead of alert()
+            const confirmDelete = window.prompt("Type 'DELETE' to confirm permanent account deletion:");
+            if (confirmDelete === 'DELETE') {
+                showStatusMessage('Account deletion process initiated. Goodbye!', 'success');
+                // In a real app, this would trigger an API call and redirect the user.
+            } else if (confirmDelete !== null) {
+                showStatusMessage('Deletion cancelled. The typed confirmation did not match.', 'error');
+            }
+        }
+
+        /**
+         * Attaches all dynamic event listeners.
+         */
+        function attachEventListeners() {
+            // Tab switching
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.onclick = (e) => switchTab(e.currentTarget.dataset.tab);
+            });
+
+            // Mobile Menu Toggle
+            document.getElementById('mobile-menu-button').onclick = toggleMobileMenu;
+
+            // Form submissions
+            document.getElementById('profile-form').onsubmit = handleProfileSave;
+            document.getElementById('password-form').onsubmit = handlePasswordSave;
+
+            // Mock functionality
+            document.getElementById('2fa-toggle').onclick = handle2FAToggle;
+            document.getElementById('delete-account').onclick = handleDeleteAccount;
+            document.getElementById('export-data').onclick = () => showStatusMessage('Data export requested. You will receive an email shortly.', 'success');
+        }
+
+        // --- Application Startup ---
+        window.onload = function() {
+            // Ensure the initial tab is set and listeners are attached
+            switchTab('profile'); 
+            attachEventListeners();
+        };
+    </script>
+</body>
+</html>
